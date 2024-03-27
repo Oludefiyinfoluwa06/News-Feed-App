@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
-function App() {
+import { useAuth } from "./hooks/useAuth"
+
+// layouts
+import RootLayout from './layouts/RootLayout'
+
+// pages
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import { Dashboard } from "./pages/Dashboard"
+import { AddNewsFeed } from "./pages/AddNewsFeed"
+import { NewsFeeds } from "./pages/NewsFeeds"
+import { ViewNewsFeed } from "./pages/ViewNewsFeed"
+
+const App = () => {
+  const { currentUser } = useAuth()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={!currentUser ? <Login /> : <Navigate to='/' />} />
+        <Route path='/signup' element={!currentUser ? < Signup /> : <Navigate to='/' />} />
+        <Route path='/' element={currentUser ? <RootLayout /> : <Navigate to='/login' />}>
+          <Route index element={<Dashboard />} />
+          <Route path="add-news-feed" element={<AddNewsFeed />} />
+          <Route path="news-feeds" element={<NewsFeeds />} />
+          <Route path="news-feeds/:id" element={<ViewNewsFeed />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App

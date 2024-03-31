@@ -11,8 +11,9 @@ const formatDate = (timestamp) => {
 export const NewsFeeds = () => {
   const [newsInfo, setNewsInfo] = useState()
   const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   
-  const { getNewsFeed } = useNewsFeedContext()
+  const { getNewsFeed, deleteNewsFeed } = useNewsFeedContext()
 
   useEffect(() => {
     setLoading(true)
@@ -38,11 +39,13 @@ export const NewsFeeds = () => {
       }
     }
     fetchData()
-  }, [getNewsFeed])
+  }, [getNewsFeed, newsInfo])
 
-  useEffect(() => {
-    console.log(newsInfo)
-  }, [newsInfo])
+  const handleDelete = (id) => {
+    setIsLoading(true)
+    deleteNewsFeed(id)
+    setIsLoading(false)
+  }
 
   return (
     <Table responsive bordered hover className="mx-auto my-5 w-100">
@@ -63,15 +66,23 @@ export const NewsFeeds = () => {
               <td>{formatDate(info.createdAt)}</td>
               <td>
                 <div className="d-flex justify-content-start gap-2">
-                  <Link to={`${info.id}`}>
+                  <Link to={`/${info.id}`}>
                     <button className="btn btn-primary btn-sm me-2">View</button>
                   </Link>
-                  <button className="btn btn-primary btn-sm me-2">Edit</button>
-                  <button className="btn btn-danger btn-sm">Delete</button>
+                  <Link to={`/${info.id}/edit`}>
+                    <button className="btn btn-primary btn-sm me-2">Edit</button>
+                  </Link>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(info.id)}>{isLoading ? "Loading" : "Delete"}</button>
                 </div>
               </td>
             </tr>
           ))
+        ) : newsInfo?.length <= 0 ? (
+          <tr>
+            <td colSpan={4} className="text-center">
+              There are no news feeds
+            </td>
+          </tr>
         ) : loading ? (
           <tr>
             <td colSpan={4} className="text-center">

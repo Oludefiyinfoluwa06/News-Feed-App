@@ -35,10 +35,11 @@ export const AddNewsFeed = () => {
       const snapshot = await uploadImage(imgName, imgExt, file)
       const url = await getDownloadURL(snapshot.ref)
       await addNewsFeed(url, title, category, content)
-      setLoading(false)
-      navigate('/news-feeds')
+      navigate('/')
     } catch {
       setError('Failed to upload image')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -103,7 +104,7 @@ export const AddNewsFeed = () => {
                 />
               </Form.Group>
 
-              <Button disabled={loading} type='submit' className='w-100 mt-3'>Add Feed</Button>
+              <Button disabled={loading} type='submit' className='w-100 mt-3'>{loading ? "Loading" : "Add Feed"}</Button>
             </Form>
           </Card.Body>
         </Card>

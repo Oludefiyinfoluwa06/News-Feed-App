@@ -34,10 +34,8 @@ const NavContent = () => {
       <aside className='position-absolute top-0 bg-white shadow h-100 d-flex align-items-start justify-content-start gap-lg-5 flex-column' style={showSidebar ? { left: '0', transition: '.3s' } : { left: '-100%', transition: '.3s' }}>
         <h2 className='p-5'>News Feed</h2>
         <ul className='d-flex align-items-start justify-content-start gap-3 flex-column'>
-          <li className='w-100 p-lg-3 mb-3'><Link onClick={() => setShowSidebar(false)} className='text-black text-decoration-none' to="/">Dashboard</Link></li>
+          <li className='w-100 p-lg-3 mb-3'><Link onClick={() => setShowSidebar(false)} className='text-black text-decoration-none' to="/">Manage News Feed</Link></li>
           <li className='w-100 p-lg-3 mb-3'><Link onClick={() => setShowSidebar(false)} className='text-black text-decoration-none' to="/add-news-feed">Add News Feed</Link></li>
-          <li className='w-100 p-lg-3 mb-3'><Link onClick={() => setShowSidebar(false)} className='text-black text-decoration-none' to="/news-feeds">Manage News Feed</Link></li>
-          <li className='w-100 p-lg-3'><Link onClick={() => setShowSidebar(false)} className='text-black text-decoration-none' to="/performance-reports">Performance Reports</Link></li>
         </ul>
       </aside>
     </>
